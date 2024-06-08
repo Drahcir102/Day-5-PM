@@ -558,6 +558,30 @@ IPV6 ADDRESSING FOR THE ISP'S
 				network __________/__
 				network ______/___
 				end
+solustioj
+conf t
+	ipv6 unicast-routing
+	int lo2
+		ipv6 add b22::1/128
+		router bgp 2
+			neigh b:2:4:b::5 remote-as 45
+			neigh b:1:22:b::1 remote-as 1
+			neigh b:1:2:b::3 remote-as 3
+			neigh b:2:1:b::4 remote-as 45
+			
+			address-family  ipv6
+				neigh b:2:4:b::5 activate
+				neigh b:1:22:b::1 activate
+				neigh b:1:2:b::3 activate
+				neigh b:2:1:b::4 activate
+				
+				network b:2:4:b::/64
+				network b:1:22:b::/64
+				network b:1:2:b::/64
+				network b:2:1:b::/64
+				network b22::1/128
+				end
+
 
 
 
@@ -598,6 +622,24 @@ IPV6 ADDRESSING FOR THE ISP'S
 				network _________/__
 				network _________/__
 				network _________/__
+				end
+
+Solusyon
+
+conf t
+	ipv6 unicast-routing
+	router bgp 1
+			neigh b:1:33:b::3 remote-as 3
+			neigh b:1:22:b::2 remote-as 2
+			neigh b:1:11:b::4 remote-as 45
+			address-family  ipv6
+				neigh b:1:33:b::3 activate
+				neigh b:1:22:b::2 activate
+				neigh b:1:11:b::4 activate	
+				network b:1:33:b::/64
+				network b:1:22:b::/64
+				network b:1:11:b::/64
+				network fec0:1::1/122
 				end
 
 
@@ -781,7 +823,7 @@ B   B22::1/128 [20/0]
 			description Test I/F for OSPFv2 & OSPFv3 Routing
 			ip address 4.4.4.4 255.255.255.255
 			ipv6 address FEC0::4:4/122
-		interface e1/0
+		interface e1/0	
 			description L3 Link to DSW1
 			ip address 10.1.4.5 255.255.255.252
 			ipv6 address 2026::2:1/122 
@@ -798,9 +840,9 @@ B   B22::1/128 [20/0]
 		interface Tunnel34
 	    !creating a tunnel for the ipv6 connection of router 3 and router 4
 			no ip address
-			ipv6 address _____::__:__/122
-			tunnel source ____
-			tunnel destination ______.3
+			ipv6 address 2026::34:2/122
+			tunnel source lo4
+			tunnel destination 3.3.3.3
 			tunnel mode ipv6ip
 			end
 			
